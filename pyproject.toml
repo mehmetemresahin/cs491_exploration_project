@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mock491"
+version = "0.1.0"
+description = "Early exploration mock of the CS491 IDP + Lakehouse + GenBI platform"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.5",
+    "pydantic>=2.10",
+    "pandas>=2.2",
+    "streamlit>=1.50",  # st.navigation, st.badge, theme.light/dark
+    "altair>=5",
+    "rapidfuzz>=3.10",
+    "faker>=30",
+    "openpyxl>=3.1",
+    "pypdf>=5",
+    "pdfplumber>=0.11",
+    "fpdf2>=2.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.8"]
+llm = ["anthropic>=2.0"]  # only for MOCK491_LLM=anthropic; Ollama needs nothing extra
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mock491 = ["sql/*.sql"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["app"]  # the UI imports `ui` the way `streamlit run app/main.py` does
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "app"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
